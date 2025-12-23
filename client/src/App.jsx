@@ -12,7 +12,7 @@ export default function App() {
   const [snapshot, setSnapshot] = useState(null);
   const [status, setStatus] = useState("");
 
-  /* 🔁 WebSocket: real-time updates */
+  /*  WebSocket: real-time updates */
   useEffect(() => {
     socket.on("seat-update", () => {
       if (showId) {
@@ -23,33 +23,33 @@ export default function App() {
     return () => socket.off("seat-update");
   }, [showId]);
 
-  /* 🔄 Auto fetch seats when showId changes */
+  /* Auto fetch seats when showId changes */
   useEffect(() => {
     if (showId) {
       fetchSeats(showId);
     }
   }, [showId]);
 
-  /* 🎯 Update snapshot when seats / selected seat changes */
+  /* Update snapshot when seats / selected seat changes */
   useEffect(() => {
     const current = seats.find((s) => s.seat_id === seat);
     setSnapshot(current || null);
   }, [seats, seat]);
 
-  /* 1️⃣ Seed seats */
+  /* Seed seats */
   const seedSeats = async () => {
     const res = await axios.post("http://localhost:3000/seed");
     setShowId(res.data.showId);
     setStatus("Show seeded successfully");
   };
 
-  /* 2️⃣ Fetch seats */
+  /* Fetch seats */
   const fetchSeats = async (id) => {
     const res = await axios.get(`http://localhost:3000/seats/${id}`);
     setSeats(res.data);
   };
 
-  /* 3️⃣ Hold seat */
+  /*  Hold seat */
   const checkoutSeat = async () => {
     try {
       await axios.post("http://localhost:3000/hold", {
@@ -63,7 +63,7 @@ export default function App() {
     }
   };
 
-  /* 4️⃣ Confirm payment */
+  /* Confirm payment */
   const confirmPayment = async () => {
     await axios.post("http://localhost:3000/confirm", {
       showId,
